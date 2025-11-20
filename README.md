@@ -19,11 +19,11 @@ This project's UI design and color scheme is directly inspired by Pornhub's icon
 
 ## 🛠 Tech Stack
 
-- **Core**: React 19 (Hooks & Functional Components)
+- **Core**: React 18 (Hooks & Functional Components)
 - **Styling**: Tailwind CSS (Utility-first)
 - **Language**: TypeScript
 - **Icons**: Font Awesome 6
-- **Build Tool**: Vite (Implicit)
+- **Build Tool**: Vite 5
 
 ## 🌟 Features
 
@@ -40,28 +40,22 @@ This project's UI design and color scheme is directly inspired by Pornhub's icon
 
 ## 🚀 Deployment Options
 
-### GitHub Pages Deployment (Detailed)
+**🔥 Universal Configuration**: This project is configured with `base: './'` in `vite.config.ts`. This means it works out-of-the-box for **both** root domains (e.g., `example.com`, Cloudflare Pages) and subdirectories (e.g., `username.github.io/repo/`) without needing to modify the code.
 
-**Prerequisite: Configure Base Path**
-If you are deploying to a subdirectory (e.g., `https://username.github.io/repo-name/`), you must update `vite.config.ts`:
-```typescript
-export default defineConfig({
-  base: '/repo-name/', // Your repository name with slashes
-  // ...
-})
-```
+### GitHub Pages Deployment
 
-**Method 1: GitHub Actions (Recommended)**
+**Method 1: GitHub Actions (Recommended & Configured)**
+The repository includes a pre-configured workflow in `.github/workflows/deploy.yml`.
 1. Go to your repository **Settings** > **Pages**.
 2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-3. GitHub will guide you to create a workflow or use the "Static HTML" preset.
-4. Once configured, every push to `main` will automatically build and deploy.
+3. Push your code to the `main` branch.
+4. GitHub will automatically install dependencies, build the project, and deploy it.
 
 **Method 2: The `gh-pages` package (Manual)**
+If you prefer manual deployment from your local machine:
 1. Install the package: `npm install gh-pages --save-dev`
 2. Update `package.json`:
    ```json
-   "homepage": "https://<username>.github.io/<repo-name>",
    "scripts": {
      "predeploy": "npm run build",
      "deploy": "gh-pages -d dist"
@@ -76,7 +70,7 @@ export default defineConfig({
    - **Framework preset**: Vite / React
    - **Build command**: `npm run build`
    - **Build output directory**: `dist`
-3. Deploy and access via Cloudflare's URL.
+3. Deploy. No extra configuration is needed.
 
 ### Custom Domain Setup
 
@@ -89,7 +83,7 @@ export default defineConfig({
 
 ### Managing Links
 
-Unlike the static HTML version, you don't need to touch the markup. Edit `constants.ts` to manage content.
+Edit `constants.ts` to manage content.
 
 **Add a new link:**
 ```typescript
@@ -149,11 +143,11 @@ This project is open-source and available under the MIT License.
 
 ## 🛠 技术栈
 
-- **核心**: React 19 (Hooks & 函数式组件)
+- **核心**: React 18 (Hooks & 函数式组件)
 - **样式**: Tailwind CSS (原子化 CSS)
 - **语言**: TypeScript
 - **图标**: Font Awesome 6
-- **构建工具**: Vite
+- **构建工具**: Vite 5
 
 ## 🌟 功能特点
 
@@ -169,66 +163,37 @@ This project is open-source and available under the MIT License.
 
 ## 🚀 部署选项
 
-### GitHub Pages 部署 (详细教程)
+**🔥 通用配置说明**：本项目在 `vite.config.ts` 中已配置为相对路径 (`base: './'`)。这意味着无论你将其部署在根域名（如 Cloudflare Pages）还是子目录（如 GitHub Pages 的 `/repo/`），**都不需要修改代码**，直接构建即可使用。
 
-由于这是 React 单页应用 (SPA)，直接上传源码无法运行，必须先构建。
+### GitHub Pages 部署
 
-#### 第一步：配置路径 (非常重要)
-如果你的项目不是部署在根域名（如 `username.github.io`），而是部署在子路径（如 `username.github.io/webnav-hub/`），你必须修改 `vite.config.ts`：
-```typescript
-// vite.config.ts
-export default defineConfig({
-  base: '/你的仓库名/', // 注意：前后都需要斜杠，例如 '/webnav-hub/'
-  plugins: [react()],
-})
-```
-*如果不配置这个，部署后页面将是白屏，因为资源路径会找不到。*
-
-#### 第二步：选择部署方式
-
-**方式 A：使用 GitHub Actions (推荐 - 自动化)**
-这是目前最推荐的方式，配置一次，终身自动更新。
+**方式 A：使用 GitHub Actions (推荐 - 已配置)**
+本项目已包含 `.github/workflows/deploy.yml` 配置文件。
 1. 进入 GitHub 仓库页面，点击顶部的 **Settings** (设置)。
 2. 点击左侧侧边栏的 **Pages**。
-3. 在 **Build and deployment** 区域:
-   - **Source** 选择 **GitHub Actions**。
-4. GitHub 会根据你的项目类型（Vite/React）建议一个 Workflow，或者你可以手动点击 Configure。
-5. 确认并提交生成的 `.yml` 文件。
-6. 以后每次你 push 代码到 `main` 分支，GitHub 都会自动构建并部署。
+3. 在 **Build and deployment** 区域，将 **Source** 设置为 **GitHub Actions**。
+4. 推送代码到 `main` 分支，GitHub 将自动触发构建并部署。
 
-**方式 B：使用 gh-pages 分支 (传统方式)**
-如果你习惯在本地手动发布，可以使用这个方法。
-1. 在项目根目录安装发布工具：
-   ```bash
-   npm install gh-pages --save-dev
-   ```
-2. 修改 `package.json` 文件，添加 `homepage` 字段和 `scripts`：
+**方式 B：使用 gh-pages 分支 (手动)**
+如果你习惯在本地手动发布：
+1. 安装发布工具：`npm install gh-pages --save-dev`
+2. 修改 `package.json` 的 `scripts`：
    ```json
-   {
-     "homepage": "https://<你的GitHub用户名>.github.io/<仓库名>",
-     "scripts": {
-       "dev": "vite",
-       "build": "tsc && vite build",
-       "predeploy": "npm run build",
-       "deploy": "gh-pages -d dist"
-     }
+   "scripts": {
+     "predeploy": "npm run build",
+     "deploy": "gh-pages -d dist"
    }
    ```
-3. 运行部署命令：
-   ```bash
-   npm run deploy
-   ```
-4. 此命令会自动打包项目，并将生成的 `dist` 文件夹推送到远程的 `gh-pages` 分支。
-5. 最后去仓库 **Settings** > **Pages**，确保 **Source** 选择的是 `Deploy from a branch`，分支选择 `gh-pages`。
+3. 运行 `npm run deploy` 即可自动打包并推送到 `gh-pages` 分支。
 
-### Cloudflare Pages 部署 (推荐)
+### Cloudflare Pages 部署
 
 1. 将您的 GitHub 仓库连接到 Cloudflare Pages。
 2. 设置构建选项：
    - **框架预设**: Vite / React
    - **构建命令**: `npm run build`
    - **构建输出目录**: `dist`
-3. 部署并通过 Cloudflare 提供的 URL 访问。
+3. 点击部署。由于使用了相对路径配置，无需额外设置环境变量。
 
 ### 自定义域名设置
 
